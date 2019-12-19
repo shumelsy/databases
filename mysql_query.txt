@@ -1,0 +1,13 @@
+#Составить запрос для поиска количества и общей стоимости автомобилей каждой марки
+select Auto.BrandId, Brand.BrandName, sum(Auto.Price), count(Brand.BrandName) from Brand inner join Auto on Brand.BrandId = Auto.BrandId group by BrandId;
+
+#Выбор марки автомобиля с самой высокой средней стоимостью автомобилей этой марки
+select BrandId, BrandName, max(avg_price) from (select Brand.BrandId, Brand.BrandName, avg(Auto.Price) as avg_price from Brand inner join Auto on Brand.BrandId = Auto.BrandId group by BrandName) as avg_price;
+
+#Выбор количества немецких автомобилей
+select BrandCountry, count(Auto.AutoModel) from Auto inner join Brand on Brand.BrandId = Auto.BrandId where BrandCountry='Germany';
+
+#Выбор списка самых дорогих моделей автомобилей каждого бренда
+select BrandName, AutoModel, max(model_price) from (select Brand.BrandName, Auto.AutoModel, Auto.Price as model_price from Brand join Auto on Brand.BrandId = Auto.BrandId group by Price order by Price desc) as model_price group by BrandName order by model_price desc;
+
+
